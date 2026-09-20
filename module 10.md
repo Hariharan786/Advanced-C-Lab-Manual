@@ -10,11 +10,54 @@ Algorithm:
  
 Program:
 
-//type your code here
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+void search(struct Node* head, int key) {
+    struct Node* current = head;
+    int index = 0;
+    while (current != NULL) {
+        if (current->data == key) {
+            printf("Element %d found at index %d\n", key, index);
+            return;
+        }
+        current = current->next;
+        index++;
+    }
+    printf("Element %d not found in the list\n", key);
+}
+
+int main() {
+    struct Node* head = (struct Node*)malloc(sizeof(struct Node));
+    struct Node* second = (struct Node*)malloc(sizeof(struct Node));
+    struct Node* third = (struct Node*)malloc(sizeof(struct Node));
+    
+    head->data = 10;
+    head->next = second;
+    second->data = 20;
+    second->next = third;
+    third->data = 30;
+    third->next = NULL;
+    
+    search(head, 20);
+    search(head, 40);
+    
+    return 0;
+}
+```
 
 Output:
 
-//paste your output here
+```text
+Element 20 found at index 1
+Element 40 not found in the list
+```
 
 
 
@@ -34,11 +77,58 @@ Algorithm:
  
 Program:
 
-//type your code here
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    char data;
+    struct Node* next;
+};
+
+void insertAtEnd(struct Node** head, char new_data) {
+    struct Node* new_node = (struct Node*)malloc(sizeof(struct Node));
+    struct Node* last = *head;
+    new_node->data = new_data;
+    new_node->next = NULL;
+    
+    if (*head == NULL) {
+        *head = new_node;
+        return;
+    }
+    
+    while (last->next != NULL) {
+        last = last->next;
+    }
+    last->next = new_node;
+}
+
+void printList(struct Node* node) {
+    while (node != NULL) {
+        printf("%c -> ", node->data);
+        node = node->next;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+    struct Node* head = NULL;
+    insertAtEnd(&head, 'A');
+    insertAtEnd(&head, 'B');
+    insertAtEnd(&head, 'C');
+    
+    printf("Linked List: ");
+    printList(head);
+    
+    return 0;
+}
+```
 
 Output:
 
-//paste your output here
+```text
+Linked List: A -> B -> C -> NULL
+```
 
  
 Result:
@@ -58,11 +148,49 @@ Algorithm:
  
 Program:
 
-//type your code here
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* prev;
+    struct Node* next;
+};
+
+void traverse(struct Node* head) {
+    struct Node* temp = head;
+    printf("Doubly Linked List: ");
+    while (temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+int main() {
+    struct Node* head = (struct Node*)malloc(sizeof(struct Node));
+    struct Node* second = (struct Node*)malloc(sizeof(struct Node));
+    
+    head->data = 5;
+    head->prev = NULL;
+    head->next = second;
+    
+    second->data = 15;
+    second->prev = head;
+    second->next = NULL;
+    
+    traverse(head);
+    
+    return 0;
+}
+```
 
 Output:
 
-//paste your output here
+```text
+Doubly Linked List: 5 15 
+```
 
 
 Result:
@@ -83,11 +211,63 @@ Algorithm:
  
 Program:
 
-//type your code here
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* prev;
+    struct Node* next;
+};
+
+void insertAtEnd(struct Node** head, int new_data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    struct Node* last = *head;
+    
+    newNode->data = new_data;
+    newNode->next = NULL;
+    
+    if (*head == NULL) {
+        newNode->prev = NULL;
+        *head = newNode;
+        return;
+    }
+    
+    while (last->next != NULL) {
+        last = last->next;
+    }
+    last->next = newNode;
+    newNode->prev = last;
+}
+
+void traverse(struct Node* head) {
+    struct Node* temp = head;
+    while (temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+int main() {
+    struct Node* head = NULL;
+    insertAtEnd(&head, 10);
+    insertAtEnd(&head, 20);
+    insertAtEnd(&head, 30);
+    
+    printf("Doubly Linked List after insertion: ");
+    traverse(head);
+    
+    return 0;
+}
+```
 
 Output:
 
-//paste your output here
+```text
+Doubly Linked List after insertion: 10 20 30 
+```
 
 
 Result:
@@ -125,11 +305,85 @@ o	If the element is not found in any node, print a message indicating the elemen
 
 Program:
 
-//type your code here
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+void deleteElement(struct Node** head, int key) {
+    if (*head == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+    
+    struct Node* temp = *head;
+    struct Node* prev = NULL;
+    
+    if (temp != NULL && temp->data == key) {
+        *head = temp->next;
+        free(temp);
+        printf("Element %d deleted\n", key);
+        return;
+    }
+    
+    while (temp != NULL && temp->data != key) {
+        prev = temp;
+        temp = temp->next;
+    }
+    
+    if (temp == NULL) {
+        printf("Element %d not found in the list\n", key);
+        return;
+    }
+    
+    prev->next = temp->next;
+    free(temp);
+    printf("Element %d deleted\n", key);
+}
+
+void printList(struct Node* node) {
+    while (node != NULL) {
+        printf("%d -> ", node->data);
+        node = node->next;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+    struct Node* head = (struct Node*)malloc(sizeof(struct Node));
+    struct Node* second = (struct Node*)malloc(sizeof(struct Node));
+    struct Node* third = (struct Node*)malloc(sizeof(struct Node));
+    
+    head->data = 10;
+    head->next = second;
+    second->data = 20;
+    second->next = third;
+    third->data = 30;
+    third->next = NULL;
+    
+    printf("Original List: ");
+    printList(head);
+    
+    deleteElement(&head, 20);
+    
+    printf("List after deletion: ");
+    printList(head);
+    
+    return 0;
+}
+```
 
 Output:
 
-//paste your output here
+```text
+Original List: 10 -> 20 -> 30 -> NULL
+Element 20 deleted
+List after deletion: 10 -> 30 -> NULL
+```
 
 
 
