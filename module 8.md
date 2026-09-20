@@ -16,7 +16,28 @@ Algorithm:
  
 Program:
 
-//type your code here
+```c
+#include <stdio.h>
+
+int main() {
+    int n;
+    printf("Enter a number: ");
+    scanf("%d", &n);
+    switch (n) {
+        case 1: printf("one\n"); break;
+        case 2: printf("two\n"); break;
+        case 3: printf("three\n"); break;
+        case 4: printf("four\n"); break;
+        case 5: printf("five\n"); break;
+        case 6: printf("six\n"); break;
+        case 7: printf("seven\n"); break;
+        case 8: printf("eight\n"); break;
+        case 9: printf("nine\n"); break;
+        default: printf("Greater than 9\n"); break;
+    }
+    return 0;
+}
+```
 
 
 
@@ -24,7 +45,10 @@ Program:
 Output:
 
 
-//paste your output here
+```text
+Enter a number: 8
+eight
+```
 
 
 
@@ -47,7 +71,29 @@ Algorithm:
  
 Program:
 
-//type your code here
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char a[50];
+    int c, h, i;
+    printf("Enter a string: ");
+    scanf("%s", a);
+    
+    for (h = 0; h <= 3; h++) {
+        c = 0;
+        for (i = 0; i < strlen(a); i++) {
+            if (a[i] == h + '0') {
+                c++;
+            }
+        }
+        printf("%d ", c);
+    }
+    printf("\n");
+    return 0;
+}
+```
 
 
 
@@ -55,7 +101,10 @@ Program:
 Output:
 
 
-//paste your output here
+```text
+Enter a string: 01230123
+2 2 2 2 
+```
 
 
 
@@ -84,7 +133,58 @@ Free the memory allocated for each string in s Free the memory allocated for s
  
 Program:
 
-//type your code here
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int next_permutation(int n, char **s) {
+    int i = n - 2;
+    while (i >= 0 && strcmp(s[i], s[i + 1]) >= 0)
+        i--;
+    if (i < 0) return 0;
+    
+    int j = n - 1;
+    while (strcmp(s[i], s[j]) >= 0)
+        j--;
+        
+    char *tmp = s[i];
+    s[i] = s[j];
+    s[j] = tmp;
+    
+    int left = i + 1, right = n - 1;
+    while (left < right) {
+        tmp = s[left];
+        s[left] = s[right];
+        s[right] = tmp;
+        left++;
+        right--;
+    }
+    return 1;
+}
+
+int main() {
+    int n, i;
+    printf("Enter number of strings: ");
+    scanf("%d", &n);
+    char **s = (char **)malloc(n * sizeof(char *));
+    for (i = 0; i < n; i++) {
+        s[i] = (char *)malloc(100 * sizeof(char));
+        scanf("%s", s[i]);
+    }
+    
+    printf("\nPermutations:\n");
+    do {
+        for (i = 0; i < n; i++) {
+            printf("%s%c", s[i], i == n - 1 ? '\n' : ' ');
+        }
+    } while (next_permutation(n, s));
+    
+    for (i = 0; i < n; i++) free(s[i]);
+    free(s);
+    return 0;
+}
+```
 
 
 
@@ -92,7 +192,15 @@ Program:
 Output:
 
 
-//paste your output here
+```text
+Enter number of strings: 2
+ab
+cd
+
+Permutations:
+ab cd
+cd ab
+```
 
 
 
@@ -117,7 +225,27 @@ Algorithm:
  
 Program:
 
-//type your code here
+```c
+#include <stdio.h>
+
+int main() {
+    int n, len, i, j, min;
+    printf("Enter n: ");
+    scanf("%d", &n);
+    len = n * 2 - 1;
+    
+    for (i = 0; i < len; i++) {
+        for (j = 0; j < len; j++) {
+            min = i < j ? i : j;
+            min = min < len - i - 1 ? min : len - i - 1;
+            min = min < len - j - 1 ? min : len - j - 1;
+            printf("%d ", n - min);
+        }
+        printf("\n");
+    }
+    return 0;
+}
+```
 
 
 
@@ -125,7 +253,14 @@ Program:
 Output:
 
 
-//paste your output here
+```text
+Enter n: 3
+3 3 3 3 3 
+3 2 2 2 3 
+3 2 1 2 3 
+3 2 2 2 3 
+3 3 3 3 3 
+```
 
 
 
@@ -156,7 +291,23 @@ o	Call the square() function and display the result.
 
 Program:
 
-//type your code here
+```c
+#include <stdio.h>
+
+int square() {
+    int n;
+    printf("Enter a number: ");
+    scanf("%d", &n);
+    return n * n;
+}
+
+int main() {
+    int result;
+    result = square();
+    printf("Square of the number is: %d\n", result);
+    return 0;
+}
+```
 
 
 
@@ -164,7 +315,10 @@ Program:
 Output:
 
 
-//paste your output here
+```text
+Enter a number: 5
+Square of the number is: 25
+```
 
 
 
